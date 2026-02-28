@@ -1,0 +1,37 @@
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <a href="/admin/dashboard">
+            <div class="brand-icon"><i class="fas fa-cloud"></i></div>
+            <span class="brand-text">MULTIVERSE<span class="brand-accent">CLOUD</span></span>
+        </a>
+    </div>
+    <nav class="sidebar-nav">
+        <a href="/admin/dashboard" class="sidebar-link <%= active === 'dashboard' ? 'active' : '' %>">
+            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+        </a>
+        <a href="/admin/categories" class="sidebar-link <%= active === 'categories' ? 'active' : '' %>">
+            <i class="fas fa-layer-group"></i> <span>Categories</span>
+        </a>
+        <a href="/admin/packages" class="sidebar-link <%= active === 'packages' ? 'active' : '' %>">
+            <i class="fas fa-cubes"></i> <span>Packages</span>
+        </a>
+        <a href="/admin/settings" class="sidebar-link <%= active === 'settings' ? 'active' : '' %>">
+            <i class="fas fa-cog"></i> <span>Settings</span>
+        </a>
+        <div class="sidebar-divider"></div>
+        <a href="/" target="_blank" class="sidebar-link">
+            <i class="fas fa-external-link-alt"></i> <span>View Website</span>
+        </a>
+        <a href="/admin/logout" class="sidebar-link sidebar-logout">
+            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+        <div class="sidebar-user">
+            <i class="fas fa-user-shield"></i>
+            <span>
+                <%= admin.email %>
+            </span>
+        </div>
+    </div>
+</aside>

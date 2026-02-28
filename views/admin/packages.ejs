@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packages - Multiverse Cloud Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body class="admin-body">
+    <%- include('partials/sidebar', { active: 'packages' , admin: admin }) %>
+
+        <div class="admin-main">
+            <header class="admin-header">
+                <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <h2>Packages</h2>
+                <div class="admin-user">
+                    <a href="/admin/packages/create" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> New
+                        Package</a>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <% if (packages.length> 0) { %>
+                    <div class="table-card">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>RAM</th>
+                                    <th>Storage</th>
+                                    <th>CPU</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% packages.forEach(pkg=> { %>
+                                    <tr>
+                                        <td>
+                                            <% if (pkg.image) { %>
+                                                <img src="<%= pkg.image %>" alt="<%= pkg.name %>" class="table-img">
+                                                <% } else { %>
+                                                    <div class="table-img-placeholder"><i class="fas fa-image"></i>
+                                                    </div>
+                                                    <% } %>
+                                        </td>
+                                        <td><strong>
+                                                <%= pkg.name %>
+                                            </strong></td>
+                                        <td>
+                                            <%= pkg.categoryId ? pkg.categoryId.name : 'N/A' %>
+                                        </td>
+                                        <td>
+                                            <%= pkg.ram %> GB
+                                        </td>
+                                        <td>
+                                            <%= pkg.storage %> GB
+                                        </td>
+                                        <td>
+                                            <%= pkg.cpuPercentage %>%
+                                        </td>
+                                        <td><strong>$<%= pkg.price.toFixed(2) %></strong></td>
+                                        <td>
+                                            <span class="status-badge status-<%= pkg.status %>">
+                                                <%= pkg.status==='active' ? 'Active' : 'Disabled' %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="table-actions">
+                                                <a href="/admin/packages/edit/<%= pkg._id %>"
+                                                    class="btn btn-sm btn-outline" title="Edit"><i
+                                                        class="fas fa-edit"></i></a>
+                                                <form action="/admin/packages/delete/<%= pkg._id %>" method="POST"
+                                                    onsubmit="return confirm('Delete this package?')">
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        title="Delete"><i class="fas fa-trash"></i></button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } else { %>
+                        <div class="admin-empty">
+                            <i class="fas fa-cubes"></i>
+                            <h3>No Packages Yet</h3>
+                            <p>Create your first hosting package.</p>
+                            <a href="/admin/packages/create" class="btn btn-primary"><i class="fas fa-plus"></i> Create
+                                Package</a>
+                        </div>
+                        <% } %>
+            </div>
+        </div>
+        <script src="/js/admin.js"></script>
+</body>
+
+</html>

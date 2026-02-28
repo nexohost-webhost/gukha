@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= pkg ? 'Edit' : 'Create' %> Package - Multiverse Cloud Admin
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body class="admin-body">
+    <%- include('partials/sidebar', { active: 'packages' , admin: admin }) %>
+
+        <div class="admin-main">
+            <header class="admin-header">
+                <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                <h2>
+                    <%= pkg ? 'Edit' : 'Create' %> Package
+                </h2>
+                <div class="admin-user">
+                    <a href="/admin/packages" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <%= error %>
+                    </div>
+                    <% } %>
+
+                        <div class="form-card">
+                            <form action="/admin/packages/<%= pkg ? 'edit/' + pkg._id : 'create' %>" method="POST"
+                                enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="name">Package Name *</label>
+                                        <input type="text" id="name" name="name" value="<%= pkg ? pkg.name : '' %>"
+                                            placeholder="e.g. Starter Plan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="categoryId">Category *</label>
+                                        <select id="categoryId" name="categoryId" required>
+                                            <option value="">Select Category</option>
+                                            <% categories.forEach(cat=> { %>
+                                                <option value="<%= cat._id %>" <%=pkg && pkg.categoryId &&
+                                                    pkg.categoryId.toString()===cat._id.toString() ? 'selected' : '' %>>
+                                                    <%= cat.name %>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row form-row-3">
+                                    <div class="form-group">
+                                        <label for="ram">RAM (GB) *</label>
+                                        <input type="number" id="ram" name="ram" value="<%= pkg ? pkg.ram : '' %>"
+                                            placeholder="e.g. 4" min="0" step="0.5" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="storage">Storage (GB) *</label>
+                                        <input type="number" id="storage" name="storage"
+                                            value="<%= pkg ? pkg.storage : '' %>" placeholder="e.g. 50" min="0"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cpuPercentage">CPU (%) *</label>
+                                        <input type="number" id="cpuPercentage" name="cpuPercentage"
+                                            value="<%= pkg ? pkg.cpuPercentage : '' %>" placeholder="e.g. 200" min="0"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="price">Price ($/mo) *</label>
+                                        <input type="number" id="price" name="price" value="<%= pkg ? pkg.price : '' %>"
+                                            placeholder="e.g. 9.99" min="0" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select id="status" name="status">
+                                            <option value="active" <%=pkg && pkg.status==='active' ? 'selected' : '' %>
+                                                >Active</option>
+                                            <option value="disabled" <%=pkg && pkg.status==='disabled' ? 'selected' : ''
+                                                %>>Disabled</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="shortDescription">Short Description *</label>
+                                    <input type="text" id="shortDescription" name="shortDescription"
+                                        value="<%= pkg ? pkg.shortDescription : '' %>"
+                                        placeholder="Brief one-line description" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fullDescription">Full Description *</label>
+                                    <textarea id="fullDescription" name="fullDescription" rows="6"
+                                        placeholder="Detailed description of this hosting package..."
+                                        required><%= pkg ? pkg.fullDescription : '' %></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="image">Package Image</label>
+                                    <% if (pkg && pkg.image) { %>
+                                        <div class="current-image">
+                                            <img src="<%= pkg.image %>" alt="Current image">
+                                            <p class="help-text">Upload a new image to replace the current one</p>
+                                        </div>
+                                        <% } %>
+                                            <input type="file" id="image" name="image" accept="image/*">
+                                            <p class="help-text">Recommended: 400x400px, Max 5MB (JPG, PNG, WebP)</p>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-save"></i>
+                                        <%= pkg ? 'Update' : 'Create' %> Package
+                                    </button>
+                                    <a href="/admin/packages" class="btn btn-outline btn-lg">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+            </div>
+        </div>
+        <script src="/js/admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= category.name %> - Multiverse Cloud
+    </title>
+    <meta name="description" content="<%= category.description %>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="/" class="nav-brand">
+                <div class="brand-icon"><i class="fas fa-cloud"></i></div>
+                <span class="brand-text">MULTIVERSE<span class="brand-accent">CLOUD</span></span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/#categories" class="nav-link">Services</a>
+                <a href="https://discord.gg/multiversecloud" target="_blank" class="nav-link">Support</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://discord.gg/multiversecloud" target="_blank" class="btn btn-primary btn-sm">
+                    <i class="fab fa-discord"></i> Join Discord
+                </a>
+                <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Category Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="page-hero-content">
+                <a href="/" class="breadcrumb-link"><i class="fas fa-home"></i> Home</a>
+                <span class="breadcrumb-sep">/</span>
+                <span class="breadcrumb-current">
+                    <%= category.name %>
+                </span>
+            </div>
+            <div class="category-hero-info">
+                <div class="category-hero-image">
+                    <% if (category.image) { %>
+                        <img src="<%= category.image %>" alt="<%= category.name %>">
+                        <% } else { %>
+                            <div class="category-placeholder-lg"><i class="fas fa-server"></i></div>
+                            <% } %>
+                </div>
+                <div class="category-hero-text">
+                    <h1>
+                        <%= category.name %>
+                    </h1>
+                    <p>
+                        <%= category.description %>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section class="packages-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Available <span class="gradient-text">Plans</span></h2>
+                <p class="section-subtitle">Choose the perfect plan for your needs. All plans include DDoS protection
+                    and 24/7 support.</p>
+            </div>
+
+            <% if (packages.length> 0) { %>
+                <div class="packages-grid">
+                    <% packages.forEach(function(pkg, index) { %>
+                        <div
+                            class="package-card<%= (index === Math.floor(packages.length / 2) && packages.length > 1) ? ' featured' : '' %>">
+                            <% if (index===Math.floor(packages.length / 2) && packages.length> 1) { %>
+                                <div class="package-badge">MOST POPULAR</div>
+                                <% } %>
+                                    <div class="package-header">
+                                        <div class="package-img">
+                                            <% if (pkg.image) { %>
+                                                <img src="<%= pkg.image %>" alt="<%= pkg.name %>">
+                                                <% } else { %>
+                                                    <div class="package-placeholder"><i class="fas fa-cube"></i></div>
+                                                    <% } %>
+                                        </div>
+                                        <h3 class="package-name">
+                                            <%= pkg.name %>
+                                        </h3>
+                                        <div class="package-price">
+                                            <span class="price-currency">$</span>
+                                            <span class="price-amount">
+                                                <%= pkg.price.toFixed(2) %>
+                                            </span>
+                                            <span class="price-period">/mo</span>
+                                        </div>
+                                    </div>
+                                    <p class="package-desc">
+                                        <%= pkg.shortDescription %>
+                                    </p>
+                                    <div class="package-specs">
+                                        <div class="spec-item">
+                                            <i class="fas fa-memory"></i>
+                                            <span>
+                                                <%= pkg.ram %> GB RAM
+                                            </span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <i class="fas fa-hdd"></i>
+                                            <span>
+                                                <%= pkg.storage %> GB Storage
+                                            </span>
+                                        </div>
+                                        <div class="spec-item">
+                                            <i class="fas fa-microchip"></i>
+                                            <span>
+                                                <%= pkg.cpuPercentage %>% CPU
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="package-actions">
+                                        <a href="/package/<%= pkg._id %>" class="btn btn-primary btn-block">View
+                                            Details</a>
+                                    </div>
+                        </div>
+                        <% }) %>
+                </div>
+                <% } else { %>
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-box-open"></i></div>
+                        <h3>No Plans Available</h3>
+                        <p>Plans for this category are coming soon. Stay tuned!</p>
+                    </div>
+                    <% } %>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="nav-brand">
+                        <div class="brand-icon"><i class="fas fa-cloud"></i></div>
+                        <span class="brand-text">MULTIVERSE<span class="brand-accent">CLOUD</span></span>
+                    </a>
+                    <p class="footer-desc">Premium hosting solutions powered by enterprise-grade hardware.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="/">Home</a>
+                    <a href="/#categories">Services</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <a href="https://discord.gg/multiversecloud" target="_blank"><i class="fab fa-discord"></i> Discord
+                        Server</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Multiverse Cloud. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>
